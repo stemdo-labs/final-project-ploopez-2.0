@@ -1,0 +1,21 @@
+name: Execute Ansible Playbook
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  ansible:
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    #- name: Execute Ansible Playbook
+    #  run: |
+    #    cd path/to/your/playbook-directory
+    #    ansible-playbook playbook.yml
