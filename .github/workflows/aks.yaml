@@ -1,0 +1,70 @@
+name: Build and deploy an app to AKS
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  AZURE_CONTAINER_REGISTRY: "acrplopez"
+  CONTAINER_NAME: "tfstate"
+  RESOURCE_GROUP: "rg-plopez-dvfinlab"
+  CLUSTER_NAME: "aks-cluster-plopez"
+
+jobs:
+  buildImage:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      - name: Build and push image to ACR
+        run: |
+          az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
+
+  createK8sSecret:
+    permissions:
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: [buildImage]
+    steps:
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      - name: Create Docker registry secret in Kubernetes
+        run: |
+          kubectl create secret docker-registry regcred \
+            --docker-server=${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io \
+            --docker-username=${{ secrets.ACR_USERNAME }} \
+            --docker-password=${{ secrets.ACR_PASSWORD }}
+
+  deploy:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: [createK8sSecret]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v1.4.6
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
