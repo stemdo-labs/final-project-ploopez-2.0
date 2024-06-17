@@ -25,4 +25,9 @@ jobs:
     - uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Destroy
-      run: terraform -chdir=Terraform destroy -auto-approve
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: ${{ env.TF_VERSION }}
+        tf_actions_subcommand: 'destroy'
+        tf_actions_working_dir: './terraform'
+        tf_actions_auto_approve: true
