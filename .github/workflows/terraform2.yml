@@ -1,51 +1,32 @@
-name: Destroy Azure Infrastructure with Terraform
+name: 'Terraform Destroy'
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Permite que el workflow se ejecute manualmente desde la interfaz de GitHub
 
 jobs:
-  setup:
-    name: 'Setup Terraform'
-    runs-on: ubuntu-latest
+  terraform:
+    name: 'Terraform Destroy'
     env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       TF_VERSION: 1.5.7
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: 'Login to Azure'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-  destroy:
-    needs: setup
     runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        shell: bash
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - uses: hashicorp/setup-terraform@v3
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: ${{ needs.setup.env.TF_VERSION }}
+    - name: Terraform Init
+      id: init
+      run: terraform -chdir=Terraform init
 
-      - name: Initialize Terraform
-        run: terraform init
-
-      - name: Destroy Infrastructure
-        run: terraform destroy -auto-approve
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    - name: Terraform Destroy
+      run: terraform -chdir=Terraform destroy -auto-approve
