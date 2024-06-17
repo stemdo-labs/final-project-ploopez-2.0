@@ -28,8 +28,12 @@ jobs:
         terraform_version: ${{ env.TF_VERSION }}
 
     # Initialize Terraform
-    - name: Terraform Init
-      run: terraform -chdir=./terraform init
+    - name: 'Terraform Init'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: ${{ env.TF_VERSION }}
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: "./terraform"
 
     # Destroy Terraform-managed infrastructure
     - name: Terraform Destroy
