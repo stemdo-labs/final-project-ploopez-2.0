@@ -22,8 +22,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       
+    # Set up Terraform
     - uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
 
+    # Initialize Terraform
+    - name: Terraform Init
+      run: terraform -chdir=./terraform init
+
+    # Destroy Terraform-managed infrastructure
     - name: Terraform Destroy
       uses: hashicorp/terraform-github-actions@master
       with:
