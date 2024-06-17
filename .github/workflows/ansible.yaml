@@ -7,10 +7,15 @@ jobs:
   deploy:
     runs-on: self-hosted 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Execute Ansible Playbook
-      run: |
-        cd ansible
-        ansible-playbook -i inventaario playbook.yaml
+      - name: Check ansible directory contents
+        run: |
+          cd ansible
+          ls
+
+      - name: Run Ansible Playbook
+        run: |
+          cd ansible
+          ansible-playbook -i inventario playbook.yaml
