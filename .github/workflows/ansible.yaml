@@ -4,18 +4,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  ansible:
-    runs-on: self-hosted
-
-    defaults:
-      run:
-        shell: bash
-
+  deploy:
+    runs-on: self-hosted 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    #- name: Execute Ansible Playbook
-    #  run: |
-    #    cd path/to/your/playbook-directory
-    #    ansible-playbook playbook.yml
+    - name: Execute Ansible Playbook
+      run: |
+        cd ansible
+        ansible-playbook -i inventaario playbook.yaml
