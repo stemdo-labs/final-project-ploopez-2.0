@@ -1,0 +1,10 @@
+---
+root_password: "1234"
+admin_user: plopez
+admin_password: "1234"
+db_name: concierto
+password_validation_policy: 1     
+
+# 0 - Low
+# 1 - Medium
+# 2 - Strong
