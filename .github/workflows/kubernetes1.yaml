@@ -1,0 +1,25 @@
+name: Deploy to AKS using Azure CLI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to Azure CLI
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+
+    - name: Get AKS credentials
+      run: |
+        yes | az aks get-credentials --resource-group rg-plopez-dvfinlab --name aks-cluster-plopez
+
+    # Aquí puedes añadir más pasos para desplegar tu aplicación
