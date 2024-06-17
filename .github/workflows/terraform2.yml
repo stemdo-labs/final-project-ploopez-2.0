@@ -13,33 +13,27 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       TF_VERSION: 1.5.7
     runs-on: ubuntu-latest
-    
+
     defaults:
       run:
         shell: bash
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     # Set up Terraform
-    - uses: hashicorp/setup-terraform@v3
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
     # Initialize Terraform
-    - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: ${{ env.TF_VERSION }}
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: "./terraform"
+    - name: Terraform Init
+      run: terraform -chdir=./terraform init
 
     # Destroy Terraform-managed infrastructure
     - name: Terraform Destroy
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: ${{ env.TF_VERSION }}
-        tf_actions_subcommand: 'destroy'
-        tf_actions_working_dir: './terraform'
-        tf_actions_auto_approve: true
+      run: terraform -chdir=./terraform destroy -auto-approve
+
