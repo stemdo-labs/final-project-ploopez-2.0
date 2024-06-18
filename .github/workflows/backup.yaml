@@ -1,0 +1,27 @@
+name: Backup Database to Azure Storage
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
+
+jobs:
+  backup:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      run: |
+        # Instala Azure CLI si no está instalado
+        # Login a Azure
+        az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }}
+
+    - name: Export Database
+      run: |
+        # Asegúrate de reemplazar esto con el comando adecuado para tu base de datos
+        mysqldump -u db_user -p$db_password db_name > backup.sql
+
+    - name: Upload Backup to Azure Storage
+      run: |
+        az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backups --file backup.sql --name backup_$(date +%Y%m%d).sql
