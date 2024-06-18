@@ -144,6 +144,8 @@ resource "null_resource" "install_ansible" {
       "sudo apt update",
       "sudo apt install ansible -y",
       "sudo apt install sshpass -y",
+      "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
+  
       "if [ ! -f /home/adminuser/.ssh/id_rsa ]; then ssh-keygen -t rsa -f /home/adminuser/.ssh/id_rsa -N '' -q; fi",
       #"ssh-copy-id adminuser@direccion_ip_destino"
       "export VM1_IP=${azurerm_network_interface.netint1.private_ip_address}",
