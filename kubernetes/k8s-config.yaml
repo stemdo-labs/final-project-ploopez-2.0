@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: k8s-config
 data:
-  DB_HOST: "20.126.107.183"
+  DB_HOST: "10.0.1.4"
   DB_USER: "plopez"
   DB_PASSWORD: "1234"
   DB_NAME: "concierto"
