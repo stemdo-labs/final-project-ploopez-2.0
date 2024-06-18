@@ -2,10 +2,15 @@ name: 'Terraform Init + Plan'
 
 on:
   workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
     
 jobs:
   terraform:
     name: 'Terraform'
+    if: github.event.pull_request.merged == true
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
