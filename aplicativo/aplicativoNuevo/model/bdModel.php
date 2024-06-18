@@ -12,7 +12,7 @@ class bd {
         $this->username = 'plopez';
         $this->password = '1234';
         //$this->host = 'db';
-        $this->host = '13.94.187.138';
+        $this->host = '10.0.1.4';
 
         try {
             // Conectar a MySQL sin especificar la base de datos
