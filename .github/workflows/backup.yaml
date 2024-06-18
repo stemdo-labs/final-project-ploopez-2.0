@@ -1,21 +1,21 @@
 name: Secure Backup and Upload
 
 on:
-  workflow_dispatch: # Ejecuta este workflow todos los días a las 13:05
+  workflow_dispatch: # Permite la ejecución manual del workflow
 
 jobs:
   backup-and-upload:
     runs-on: self-hosted
     steps:
-    
-      - uses: azure/login@v2
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-      - name: SSH and Export Database
+
+      - name: Export Database
         run: |
-          mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > /home/adminuser/database_backup.sql
-  
+          mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > database_backup.sql
+
       - name: Upload to Azure Storage
         run: |
           az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
