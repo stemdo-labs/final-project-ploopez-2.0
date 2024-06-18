@@ -18,9 +18,15 @@ jobs:
           latest_backup=$(az storage blob list --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --query "[?ends_with(name, '.sql')].[name]" --output tsv | sort | tail -n1)
           az storage blob download --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --name "$latest_backup" --file "./$latest_backup"
 
+      - name: Identify Latest Backup File
+        run: |
+          latest_backup=$(ls -t | grep 'database_backup' | head -n1)
+          echo "Latest backup file is: $latest_backup"
+
       - name: Transfer Backup to VM
         run: |
-          scp ./$latest_backup adminuser@10.0.1.4:/home/adminuser
+          scp "./$latest_backup" adminuser@10.0.1.4:/home/adminuser/
+          shell: /usr/bin/bash -e {0}
 
       - name: Restore Database
         run: |
