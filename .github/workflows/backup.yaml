@@ -2,7 +2,7 @@ name: Backup Database to Azure Storage
 
 on:
   schedule:
-    - cron: '0 2 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
+    - cron: '5 13 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
 
 jobs:
   backup:
