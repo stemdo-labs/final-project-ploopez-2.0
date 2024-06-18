@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proyectofinal
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proyectofinal
+  template:
+    metadata:
+      labels:
+        app: proyectofinal
+    spec:
+      containers:
+      - name: acrplopez
+        image: acrplopez.azurecr.io/mi-aplicacion-php:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          value: "$dbHost"
+        - name: DB_USER
+          value: "$dbUser"
+        - name: DB_PASSWORD
+          value: "$dbPassword"
+        - name: DB_NAME
+          value: "$dbName"
+      imagePullSecrets:
+      - name: regcred
