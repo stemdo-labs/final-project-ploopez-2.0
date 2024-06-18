@@ -2,7 +2,7 @@ Para la creacion de la base de datos, dentro de la aplicacion de PHP en model/bd
 una vez establecida la conexión con el contenedor/máquina virtual que contiene mysql, se proceden 
 a crear las tablas mediante funciones en la propia clase del archivo
         
-        ![alt text](image.png)
+        ![alt text](../capturas/image.png)
 
 con la última llamada a la funcion, se insertan los datos de los diferentes tipos de entradas disponibles
 
@@ -11,12 +11,12 @@ también se procede a la creación de la base de datos mediante comandos en ansi
 el proyecto y se procede a desplegar ansible.
 
 
-        ![alt text](image-1.png)
+        ![alt text](../capturas/image-1.png)
 
 
 ASí se vería la tabla de entradas (ya con los datos en la base de datos) desde la aplicación PHP
 
-        ![alt text](image-2.png)
+        ![alt text](../capturas/image-2.png)
 
 Y posteriormente se añadieron dos nuevas funcionalidades, la de crear un backup de la bbdd, dentro de un contenedor 
 en Azure, lo que permite, tener una copia de seguridad en caso de fallo . Esto se llevó a cabo con un workflow de Github
@@ -24,7 +24,7 @@ Actions, conectado a un self hosted runner que se establece en la máquina virtu
 generar un archivo partiendo de mysql, copiarlo y guardarlo en un contenedor en el storage account de Azure
 
 
-        ![alt text](image-3.png)
+        ![alt text](../capturas/image-3.png)
 
 Este archivo se obtiene gracias aa un workflow que se lanza mediante un cronjob (un trabajo definido a realizarse en un 
 determinado momento), en este caso,  establecido a las 12:15 de la mañana todos los dias,semanas, meses, etc... 
