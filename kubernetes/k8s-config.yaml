@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  DB_HOST: "20.126.107.183"
+  DB_USER: "plopez"
+  DB_PASSWORD: "1234"
+  DB_NAME: "concierto"
