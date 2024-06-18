@@ -2,7 +2,7 @@ Para la creacion de la base de datos, dentro de la aplicacion de PHP en model/bd
 una vez establecida la conexión con el contenedor/máquina virtual que contiene mysql, se proceden 
 a crear las tablas mediante funciones en la propia clase del archivo
         
-        ![alt text](../capturas/image.png)
+        ![alt text](../capturas/creacionTablas.png)
 
 con la última llamada a la funcion, se insertan los datos de los diferentes tipos de entradas disponibles
 
