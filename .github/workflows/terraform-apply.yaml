@@ -2,15 +2,15 @@ name: 'Terraform Completo'
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - main
+    - main
+    paths:
+    - 'terraform/**'
     
 jobs:
   terraform:
     name: 'Terraform'
-    if: github.event.pull_request.merged == true
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
