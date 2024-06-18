@@ -142,6 +142,7 @@ resource "null_resource" "install_ansible" {
     inline = [
       "mkdir -p /home/adminuser/.ssh",
       "sudo apt update",
+      "sudo apt-get install -y mysql-client",
       "sudo apt install ansible -y",
       "sudo apt install sshpass -y",
       "curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
