@@ -1,7 +1,15 @@
 name: Docker Image CI
 
-on: workflow_dispatch
-
+on: 
+  workflow_dispatch:
+  push:
+    branches: 
+    - main
+    - develop
+    paths:
+      - 'aplicativo/aplicativoNuevo/**'
+      - 'kubernetes/**'
+    
 jobs:
   build:
     name: 'Build and Push to ACR'
