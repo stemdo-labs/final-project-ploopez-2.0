@@ -18,4 +18,4 @@ jobs:
   
       - name: Upload to Azure Storage
         run: |
-          az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name your_container_name --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
+          az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
