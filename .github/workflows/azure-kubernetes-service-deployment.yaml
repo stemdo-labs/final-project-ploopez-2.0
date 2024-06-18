@@ -3,6 +3,9 @@ name: Execute Kubectl apply
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   k8s:
