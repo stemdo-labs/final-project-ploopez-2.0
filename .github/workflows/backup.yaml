@@ -1,8 +1,7 @@
 name: Secure Backup and Upload
 
 on:
-  schedule:
-    - cron: '42 13 * * *' # Ejecuta este workflow todos los días a las 13:05
+  workflow_dispatch: # Ejecuta este workflow todos los días a las 13:05
 
 jobs:
   backup-and-upload:
