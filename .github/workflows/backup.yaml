@@ -2,7 +2,7 @@ name: Backup Database to Azure Storage
 
 on:
   schedule:
-    - cron: '5 13 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
+    - cron: '20 13 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
 
 jobs:
   backup:
@@ -19,7 +19,6 @@ jobs:
 
     - name: Export Database
       run: |
-        # Asegúrate de reemplazar esto con el comando adecuado para tu base de datos
         mysqldump -u db_user -p$db_password db_name > backup.sql
 
     - name: Upload Backup to Azure Storage
