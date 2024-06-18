@@ -1,0 +1,33 @@
+
+name: Execute Kubectl apply
+
+on:
+  workflow_dispatch:
+
+jobs:
+  k8s:
+    name: 'Azure Kubernetes Service Deployment'
+    runs-on: ubuntu-latest
+    environment: production
+ 
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Connection to cluster
+      run: |
+        az acr login --name ${{ vars.CONTAINER_REGISTRY_NAME }}
+        az aks get-credentials --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --name ${{ vars.KUBERNETES_CLUSTER_NAME }}
+
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Deploy
+      run: |
+        kubectl apply -f kubernetes/.
