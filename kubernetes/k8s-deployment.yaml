@@ -20,12 +20,24 @@ spec:
         - containerPort: 80
         env:
         - name: DB_HOST
-          value: "$dbHost"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: DB_HOST
         - name: DB_USER
-          value: "$dbUser"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: DB_USER
         - name: DB_PASSWORD
-          value: "$dbPassword"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: DB_PASSWORD
         - name: DB_NAME
-          value: "$dbName"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: DB_NAME
       imagePullSecrets:
       - name: regcred
