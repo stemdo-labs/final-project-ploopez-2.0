@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: k8s-config
+  name: k8s-proyectofinal
+  namespace: default
 data:
   DB_HOST: "10.0.1.4"
   DB_USER: "plopez"
