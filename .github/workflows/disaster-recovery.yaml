@@ -1,0 +1,27 @@
+name: Database Backup Recovery
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  restore-database:
+    runs-on: self-hosted
+    steps:
+    
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download Latest Backup from Azure Storage
+        run: |
+          latest_backup=$(az storage blob list --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --query "[?ends_with(name, '.sql')].[name]" --output tsv | sort | tail -n1)
+          az storage blob download --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backup --name "$latest_backup" --file "./$latest_backup"
+
+      - name: Transfer Backup to VM
+        run: |
+          scp ./$latest_backup adminuser@10.0.1.4:/home/adminuser
+
+      - name: Restore Database
+        run: |
+          ssh adminuser@10.0.1.4 "mysql -u plopez -p1234 concierto < /home/adminuser/$latest_backup"
