@@ -19,7 +19,7 @@ jobs:
 
       - name: Export Database
         run: |
-          mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > database_backup.sql
+          mysqldump -u ${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} concierto -h 10.0.1.4 > database_backup.sql
 
       - name: Upload to Azure Storage
         run: |
