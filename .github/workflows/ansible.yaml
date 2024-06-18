@@ -1,4 +1,4 @@
-name: Execute Ansible Playbook
+name: Ansible Playbook
 
 on: 
   workflow_dispatch:
