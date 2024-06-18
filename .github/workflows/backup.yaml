@@ -8,15 +8,14 @@ jobs:
     runs-on: self-hosted
     steps:
     
-    - name: SSH and Export Database
-      run: |
-        mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > /home/adminuser/database_backup.sql
-
-
-    - uses: azure/login@v2
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to Azure Storage
-      run: |
-        az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name your_container_name --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+      - name: SSH and Export Database
+        run: |
+          mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > /home/adminuser/database_backup.sql
+  
+      - name: Upload to Azure Storage
+        run: |
+          az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name your_container_name --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
