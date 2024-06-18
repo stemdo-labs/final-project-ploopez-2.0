@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: acrplopez
-        image: acrplopez.azurecr.io/mi-aplicacion-php:latest
+        image: acrplopez.azurecr.io/app-plopez:1.0
         ports:
         - containerPort: 80
         env:
