@@ -22,6 +22,7 @@ jobs:
         run: |
           latest_backup=$(ls -t | grep 'database_backup' | head -n1)
           echo "Latest backup file is: $latest_backup"
+          echo "latest_backup=$latest_backup" >> $GITHUB_ENV
 
       - name: Transfer Backup to VM
         run: |
