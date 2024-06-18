@@ -1,26 +1,26 @@
-name: Backup Database to Azure Storage
+name: Secure Backup and Upload
 
 on:
   schedule:
-    - cron: '20 13 * * *' # Ejecuta este workflow todos los días a las 2:00 AM
+    - cron: '42 13 * * *' # Ejecuta este workflow todos los días a las 13:05
 
 jobs:
-  backup:
+  backup-and-upload:
     runs-on: self-hosted
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up Azure CLI
+    
+    - name: SSH and Export Database
       run: |
-        # Instala Azure CLI si no está instalado
-        # Login a Azure
-        az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }}
+        mysqldump -u plopez -p1234 concierto -h 10.0.1.4 > /home/adminuser/database_backup.sql
 
-    - name: Export Database
-      run: |
-        mysqldump -u db_user -p$db_password db_name > backup.sql
 
-    - name: Upload Backup to Azure Storage
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+    - name: Upload to Azure Storage
       run: |
-        az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name backups --file backup.sql --name backup_$(date +%Y%m%d).sql
+        az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --container-name your_container_name --file ./database_backup.sql --name "database_backup_$(date +%Y%m%d%H%M%S).sql"
