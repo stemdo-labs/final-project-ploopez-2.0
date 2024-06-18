@@ -7,6 +7,9 @@ jobs:
   backup-and-upload:
     runs-on: self-hosted
     steps:
+      - name: Show Current Time
+        run: date
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
