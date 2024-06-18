@@ -31,3 +31,4 @@ jobs:
     - name: Deploy
       run: |
         kubectl apply -f kubernetes/.
+        kubectl describe svc proyectofinal-service 
