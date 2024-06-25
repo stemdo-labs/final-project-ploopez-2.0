@@ -9,7 +9,7 @@ table{
     border-spacing: 5px;
 }
 th {
-    background-color: black;color: white;
+    background-color: black;color: red;
     font-size: 1.3em; 
     padding: 5px;
 }
