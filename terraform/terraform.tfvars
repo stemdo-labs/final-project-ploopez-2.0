@@ -1,24 +1,8 @@
-resource_group_name = "rg-plopez-dvfinlab"
-vnet_name = "vnetplopeztfexercise01"
+resource_group_name = "rg-plopez-fp2"
+vnet_name = "vnet-common-bootcamp"
 vnet_address_space = ["10.0.0.0/16"]
-location = "West Europe"
-acr_name = "acrplopez"
-
-
-subnets = {
-  "subnet1" = {
-    name                 = "subnet1"
-    resource_group_name  = "rg-plopez-dvfinlab"
-    virtual_network_name = "vnetplopeztfexercise01"
-    address_prefixes     = ["10.0.1.0/24"]
-  }
-  "subnet2" = {
-    name                 = "subnet2"
-    resource_group_name  = "rg-plopez-dvfinlab"
-    virtual_network_name = "vnetplopeztfexercise01"
-    address_prefixes     = ["10.0.2.0/24"]
-  }
-}
+location = "UK South"
+acr_name = "acrplopezfp2"
 
 
 network_interface = {
@@ -46,8 +30,8 @@ linux_virtual_machine = {
   "linux_vm1" = {
     computer_name       = "Linux1"
     name                = "linux_vm1"
-    resource_group_name = "rg-plopez-dvfinlab"
-    location            = "West Europe"
+    resource_group_name = "rg-plopez-fp2"
+    location            = "UK South"
     size                = "Standard_B1ms"
     admin_username      = "adminuser"
     admin_password      = "A1b#c2"
@@ -65,8 +49,8 @@ linux_virtual_machine = {
     "linux_vm2" = {
         computer_name       = "Linux2"
         name                = "linux_vm2"
-        resource_group_name = "rg-plopez-dvfinlab"
-        location            = "West Europe"
+        resource_group_name = "rg-plopez-fp2"
+        location            = "UK South"
         size                = "Standard_B1ms"
         admin_username      = "adminuser"
         admin_password      = "A1b#c2"
@@ -87,8 +71,8 @@ linux_virtual_machine = {
 network_security_groups = {
   nsg1 = {
     name                = "NSG1"
-    location            = "West Europe"
-    resource_group_name = "rg-plopez-dvfinlab"
+    location            = "UK South"
+    resource_group_name = "rg-plopez-fp2"
     security_rules = [
       {
         name                       = "allowSSH"
@@ -127,8 +111,8 @@ network_security_groups = {
   },
   nsg2 = {
     name                = "NSG2"
-    location            = "West Europe"
-    resource_group_name = "rg-plopez-dvfinlab"
+    location            = "UK South"
+    resource_group_name = "rg-plopez-fp2"
     security_rules = [
       {
         name                       = "allowSSH"
@@ -155,10 +139,3 @@ network_security_groups = {
     ]
   }
 }
-
-
-# Valores del aks cluster
-
-aks_cluster_name    = "aks-cluster-plopez"
-node_count          = 1
-node_vm_size        = "Standard_B2s"

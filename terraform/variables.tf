@@ -13,10 +13,6 @@ variable "vnet_name" {
 
   description = "Nombre de la VNet"
   type        = string
-  validation {
-    condition     = length(var.vnet_name) > 0 && can(regex("^vnet[a-z]{2,}tfexercise\\d{2,}$", var.vnet_name))
-    error_message = "vnet_name no puede estar vacío debe comenzar con 'vnet', seguido de al menos dos caracteres en el rango [a-z], seguido de 'tfexercise', y terminar con al menos dos dígitos numéricos."
-  }
 }
 
 // Espacio de direcciones de la red virtual
@@ -31,31 +27,10 @@ variable "vnet_address_space" {
 
 variable "location" {
   description = "Ubicación donde se desplegará la VNet"
-  default     = "West Europe"
+  default     = "UK South"
 }
 
 
-variable "subnets" {
-    description = "Subredes de la VNet"
-    type = map(object({
-        name                 = string
-        resource_group_name  = string
-        virtual_network_name = string
-        address_prefixes     = list(string)
-    }))
-  
-}
-
-# variable "subnet2" {
-#     description = "Subredes de la VNet"
-#     type = map(object({
-#         name                 = string
-#         resource_group_name  = string
-#         virtual_network_name = string
-#         address_prefixes     = list(string)
-#     }))
-  
-# }
 
 # Network Interface
 variable "network_interface" {
@@ -117,27 +92,6 @@ variable "network_security_groups" {
       destination_address_prefix = string
     }))
   }))
-}
-
-
-
-# Aks Cluster
-
-variable "aks_cluster_name" {
-  description = "El nombre del clúster de AKS."
-  type        = string
-}
-
-variable "node_count" {
-  description = "El número de nodos en el clúster AKS."
-  type        = number
-  default     = 1
-}
-
-variable "node_vm_size" {
-  description = "El tamaño de la máquina virtual para los nodos del clúster AKS."
-  type        = string
-  default = "Standard_B2s"
 }
 
 
